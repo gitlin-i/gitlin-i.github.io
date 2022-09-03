@@ -1,2 +1,5 @@
+
+
+markdown: kramdown
 theme: minima
 #remote_theme: THEME-NAME
