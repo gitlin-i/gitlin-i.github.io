@@ -9,3 +9,4 @@ gem "tzinfo", "~> 2.0"
 gem "tzinfo-data", "~> 1.2022"
 
 gem 'github-pages', '~> 227' , group: :jekyll_plugins
+gem "minimal-mistakes-jekyll"
