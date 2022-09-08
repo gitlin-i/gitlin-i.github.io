@@ -286,21 +286,7 @@ date_format: "%Y-%m-%d"
 
 # Defaults
 defaults:
-
-
-  - scope:
-      path: ""
-      type: tag
-    values:
-      author_profile: true
-  - scope:
-      path: ""
-      type: category
-    values:
-      comments: false
-
   # _posts
-
   - scope:
       path: ""
       type: posts
@@ -310,6 +296,25 @@ defaults:
       layout: single
       author_profile: true
       read_time: false
-      comments: false #true
+      comments: true #true
       share: false
       related: true
+  #tag
+  - scope:
+      path: ""
+      type: tag
+    values:
+      author_profile: true
+  #category
+  - scope:
+      path: ""
+      type: category
+    values:
+      comments: false
+  #page
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true   
