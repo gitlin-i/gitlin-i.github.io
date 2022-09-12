@@ -10,7 +10,7 @@ require "jekyll"
 
 # Change your GitHub reponame
 # 자신의 GitName/GitHub Project 명
-GITHUB_REPONAME = "gitlin-i/jr-gitlin-i.github.io"
+GITHUB_REPONAME = "gitlin-i/gitlin-i.github.io"
 
 desc "Generate blog files"
 task :generate do
