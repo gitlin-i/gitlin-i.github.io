@@ -108,7 +108,6 @@ def search_neseted_bad(array, desired_value):
   return coords
 ```
 다음은 종료 플래그를 사용하지 않은 보다 간단하고 컴팩트한 형태의 예이다.
-
 ```
 def _iterate_array2d(array2d):
   for i,row in enmerate(array2d):
@@ -171,8 +170,125 @@ send()메서드를 사용했다는 것은 yield키워드가 할당 구문의 오
 ```
 recieve = yield produced
 ```
+이 경우 yield 키워드는 두 가지 일을 한다.
+
+1. produced 값을 호출자에게 보내고 그 곳에 멈추는 것이다.
+
+2. 호출자로부터 send()메서드를 통해 전달된 produced값을 받는 것이다. 이렇게 입력된 값은 recieve 변수에 할당된다.
+
+
+코루틴에 값을 전송 하는 것은 yield 구문이 멈춘 상태에서만 가능하다. 그렇게 되려면 코루틴을 해당 상태까지 이동시켜야 한다. 유일한 방법은 next()를 호출하는 것이다.
+
+즉, 코루틴에게 무엇인가를 보내기 전에 next()메서드를 적어도 한번은 호출해야 한다.
+
+(@prepare_coroutine을 사용함으로써 next()호출하지 않고도 코루틴을 바로 사용할 수 있다.)
+
+
+---
+
+#### 코루틴 고급 주제
+
+코루틴은 기술적으로는 제너레이터지만 반복을 염두에 두고 만든 것이 아니라 **나중에 코드가 실행될 때까지 코드의 실행을 멈추는 것**을 목표로 한다.
+
+
+제너레이터에서 값을 반환(return)하면 반복이 즉시 중단된다.
+
+본래의 의미 체계를 유지하기 위해 StopIteration 예외가 발생해도 **예외 객체 내**에 반환 값이 저장되어있다.
+
+
+---
+
+#### 작은 코루틴에 위임하기 - yield from
+
+itertools.chain() 과 비슷한 함수를 만들어보자.
+```
+def chain(*iterables):
+  for it in iterables:
+    yield from it
+```
+yield from 구문은 어떤 이터러블에 대해서도 동작하며 이것을 사용하면 마치 최상위 제너레이터가 직접 값을 yield한 것과 같은 효과를 나타낸다.
+
+yield from을 사용하면 코루틴 종료시 최종 반환값을 구할 수 있다. 이 값은 StopIteration에 포함된 값이다.
+
+---
+
+#### 서브 제너레이터와 데이터 송수신하기
+
+예제
+```
+def sequence(name, start, end):
+  value = start
+  logger.info('{} 제너레이터 {}에서 시작'.format(name,value))
+
+  while value < end:
+    try:
+      recieved = yield value
+      logger.info('{} 제너레이터 {} 값 수신'.format(name,recieved))
+      value +=1
+    except CustomException as e:
+      logger.info('{} 제너레이터 {} 에러 처리'.format(name, e))
+      received = yield 'OK'
+
+  return end
+
+def main():
+  step1 = yield from sequence('first',0 ,5)
+  step2 = yield from sequence('second',step1 ,10)
+  return step1 + step2
+```
 
 ```
-dd
+>>> g = main()
+>>> next(g)
+first 제너레이터 0에서 시작
+0
+>>> next(g)
+first 제너레이터 None 값 수신
+1
+>>> g.send('제너레이터 인자 값')
+first 제너레이터 '제너레이터 인자 값' 값 수신
+2
+>>> g.thorow(CustomException('처리 가능한 예외'))
+first 제너레이터 처리가능한 예외 던지기 에러 처리
+'OK'
+>>> next(g)
+2
+>>> next(g)
+first 제너레이터 None 값 수신
+3
+>>> next(g)
+first 제너레이터 None 값 수신
+4
+>>> next(g)
+first 제너레이터 None 값 수신
+second 제너레이터 5에서 시작
+5
 ```
+이 예제는 우리에게 많은 것을 시사한다.
+
+sequence 서브 제너레이터에 값을 보내지 않고 오직 main제너레이터에 값을 보냈다.  
+실제 값을 받는 것은 내부 제너레이터이다.  
+yield from 을 통해 squence 에 데이터를 전달한 셈이다.
+
+---
+
+#### 비동기 프로그래밍
+
+이러한 기능을 통해 얻을 수 있는 가장 큰 장점은 **논블로킹방식**으로 **병렬 I/O작업**을 할 수 있다는 것이다.
+
+이때, 필요한 것이 서드파티 라이브러리에서 구현한 저수준의 제너레이터이다.
+
+비동기 프로그래밍을 지원하기 위한 더 나은 구문을 지원하기 전까지 실제로 파이썬에서는 이런식으로 비동기 기능을 구현했다.
+
+파이썬 3.5이전에 코루틴은 @coroutine 데코레이터가 적용된 제너레이터일 뿐이었으며 yield from 구문을 사용해 호출했다.
+
+그러나 이제 **코루틴이라는 새로운 타입**이 추가되었다.
+(coroutine object)
+
+await 와 async def 또한 추가되었다.
+await는 yield from 을 대신하기 위한 용도로 awaitable 객체에 대해서만 동작한다.
+
+async def 는 @coroutine 데코레이터를 대신하여 코루틴을 정의하는 새로운 방법이다. 실제로 코루틴 인스턴스를 반환한다.
+
+근본원리는 동일하다.
 
