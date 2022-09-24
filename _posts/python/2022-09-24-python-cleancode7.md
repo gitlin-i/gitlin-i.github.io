@@ -285,7 +285,7 @@ yield from 을 통해 squence 에 데이터를 전달한 셈이다.
 그러나 이제 **코루틴이라는 새로운 타입**이 추가되었다.
 (coroutine object)
 
-await 와 async def 또한 추가되었다.
+await 와 async def 또한 추가되었다.  
 await는 yield from 을 대신하기 위한 용도로 awaitable 객체에 대해서만 동작한다.
 
 async def 는 @coroutine 데코레이터를 대신하여 코루틴을 정의하는 새로운 방법이다. 실제로 코루틴 인스턴스를 반환한다.
