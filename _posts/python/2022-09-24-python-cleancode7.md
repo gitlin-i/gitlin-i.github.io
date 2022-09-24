@@ -93,6 +93,8 @@ itertools.tee(iterable, n) 기존 iterable을 n개의 iterable로 변환. (itert
 
 + 중첩 루프
 다음은 피해야 할 코드이다.
+
+
 ```
 def search_neseted_bad(array, desired_value):
   coords = None
@@ -107,7 +109,10 @@ def search_neseted_bad(array, desired_value):
   raise ValueError('{} not found'.format(desired_value))      
   return coords
 ```
+
 다음은 종료 플래그를 사용하지 않은 보다 간단하고 컴팩트한 형태의 예이다.
+
+
 ```
 def _iterate_array2d(array2d):
   for i,row in enmerate(array2d):
@@ -125,7 +130,8 @@ def search_nested(array,desired_value):
     raise ValueError('{} not found'.format(desired_value))
 
   return coords
-  ```
+```
+
 중첩을 풀어 1차원 루프로 만들면 더 깔끔하다.
 
 ---
