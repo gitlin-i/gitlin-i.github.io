@@ -74,7 +74,7 @@ FROM EMP E     => 무효
 |최적화목표|ALL_ROWS|전체 처리속도 최적화|
 ||FIRST_ROWS(N)|최초 N건 응답속도 최적화|
 |액세스방식|FULL|TABLE FULL SCAN 유도|
-||INDEX|INDEX SCAN 유도
+||INDEX|INDEX SCAN 유도|
 ||INDEX_DESC|INDEX 역순 스캔 유도|
 ||INDEX_FFS|INDEX FAST FULL SCAN 유도|
 ||INDEX_SS|INDEX SKIP SCAN 유도|
@@ -106,7 +106,7 @@ FROM EMP E     => 무효
 ||NO_PUSH_SUBQ|서브쿼리를 가급적 늦게 필터링하도록 유도|
 ---
 
-## SQL 공유 및 재사용
+### SQL 공유 및 재사용
 
 라이브러리 캐시: SQL 파싱, 최적화, 로우 소스 생성 과정을 거쳐 생성한 내부 프로지서를 반복 재사용할 수 있도록 캐싱해두는 메모리 공간
 
@@ -138,7 +138,7 @@ String sqlsmt = "select * from customer where login_id= '"+login_id+"'";
 
 ---
 
-## 데이터 저장 구조 및 I/O 매커니즘
+### 데이터 저장 구조 및 I/O 매커니즘
 
 SQL이 느린 이유 => I/O가 가장 대표적이고 절대 비중을 차지
 
