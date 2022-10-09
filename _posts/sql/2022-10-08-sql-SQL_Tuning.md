@@ -71,74 +71,74 @@ FROM EMP E     => 무효
 
 |분류|힌트|설명|
 
-|:---|:---|:---|
+|:----|:----|:----|
 
 |최적화목표|ALL_ROWS|전체 처리속도 최적화|
 
-||FIRST_ROWS(N)|최초 N건 응답속도 최적화|
+|-|FIRST_ROWS(N)|최초 N건 응답속도 최적화|
 
 |액세스방식|FULL|TABLE FULL SCAN 유도|
 
-||INDEX|INDEX SCAN 유도|
+|-|INDEX|INDEX SCAN 유도|
 
-||INDEX_DESC|INDEX 역순 스캔 유도|
+|-|INDEX_DESC|INDEX 역순 스캔 유도|
 
-||INDEX_FFS|INDEX FAST FULL SCAN 유도|
+|-|INDEX_FFS|INDEX FAST FULL SCAN 유도|
 
-||INDEX_SS|INDEX SKIP SCAN 유도|
+|-|INDEX_SS|INDEX SKIP SCAN 유도|
 
 |조인순서|ORDERED|FROM 절에 나열된 순서대로 조인|
 
-||LEADING|LEADING 힌트 괄호에 기술한 순서대로 조인|
+|-|LEADING|LEADING 힌트 괄호에 기술한 순서대로 조인|
 
-||SWAP_JOIN_INPUTS|해시 조인시,BUILD INPUT을 명시적으로 
+|-|SWAP_JOIN_INPUTS|해시 조인시,BUILD INPUT을 명시적으로 
 선택|
 
 |조인 방식|USE_NL|NL 조인 유도|
 
-||USE_MERGE|소트 머지 조인 유도|
+|-|USE_MERGE|소트 머지 조인 유도|
 
-||USE_HASH|해시조인 유도|
+|-|USE_HASH|해시조인 유도|
 
-||NL_SJ|NL 세미 조인 유도|
+|-|NL_SJ|NL 세미 조인 유도|
 
-||MERGE_SJ| 소트 머지 세미 조인 유도|
+|-|MERGE_SJ| 소트 머지 세미 조인 유도|
 
-||HASH_SJ| 해시 세미 조인 유도|
+|-|HASH_SJ| 해시 세미 조인 유도|
 
 |서브쿼리 팩토링|MATERIALIZE| WITH 문으로 정의한 집합을 물리적으로 생성|
 
-||INLINE| WITH문으로 정의한 집합을 물리적으로 생성하지 않고 INLINE 처리 유도|
+|-|INLINE| WITH문으로 정의한 집합을 물리적으로 생성하지 않고 INLINE 처리 유도|
 
 |쿼리변환|MERGE|뷰 머징 유도|
 
-||NO_MERGE|뷰 머징 방지|
+|-|NO_MERGE|뷰 머징 방지|
 
-||UNNEST|서브쿼리 UNNESTING 유도|
+|-|UNNEST|서브쿼리 UNNESTING 유도|
 
-||NO_UNNEST|서브쿼리 UNNESTING 방지|
+|-|NO_UNNEST|서브쿼리 UNNESTING 방지|
 
-||PUSH_PRED|조인조건 PUSHDOWN 유도|
+|-|PUSH_PRED|조인조건 PUSHDOWN 유도|
 
-||NO_PUSH_PRED|조인조건 PUSHDOWN방지|
+|-|NO_PUSH_PRED|조인조건 PUSHDOWN방지|
 
-||USE_CONCAT|OR 또는 IN-LIST조건을 OR-EXPANSION으로 유도|
+|-|USE_CONCAT|OR 또는 IN-LIST조건을 OR-EXPANSION으로 유도|
 
-||NO_EXPAND|OR 또는 IN-LIST조건을 OR-EXPANSION으로 방지|
+|-|NO_EXPAND|OR 또는 IN-LIST조건을 OR-EXPANSION으로 방지|
 
 |병렬처리|PARALLEL|스캔 혹은 DML을 병렬 처리 유도|
 
-||PARALLEL_INDEX|인덱스 스캔을 병렬방식으로 처리 유도|
+|-|PARALLEL_INDEX|인덱스 스캔을 병렬방식으로 처리 유도|
 
-||PQ_DISTRIBUTE|병렬 수행시 데이터 분배 방식 결정|
+|-|PQ_DISTRIBUTE|병렬 수행시 데이터 분배 방식 결정|
 
 |기타|APPEND|DIRECT-PATH-INSERT 유도|
 
-||DRIVING-SITE|원격 쿼리에 대한 최적화 및 실행 주체 지정|
+|-|DRIVING-SITE|원격 쿼리에 대한 최적화 및 실행 주체 지정|
 
-||PUSH_SUBQ|서브 쿼리를 가급적 빨리 필터링하도록 유도|
+|-|PUSH_SUBQ|서브 쿼리를 가급적 빨리 필터링하도록 유도|
 
-||NO_PUSH_SUBQ|서브쿼리를 가급적 늦게 필터링하도록 유도|
+|-|NO_PUSH_SUBQ|서브쿼리를 가급적 늦게 필터링하도록 유도|
 
 
 ---
